@@ -13,4 +13,10 @@ public class MigrationConfigVO implements Serializable {
     private String dataSource;
     private Map<String, String> mappingColumnNames;
     private Map<String , String> columnIdMap;
+    private String targetDataSource;
+    private String targetTableName;
+    private String sourcePrimaryKey;
+    private String targetPrimaryKey;
+    private String whereClause;
+    private Integer migrationOrder;
 }

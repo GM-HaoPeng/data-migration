@@ -29,9 +29,14 @@ public class MigrationConfigServiceImpl extends ServiceImpl<MigrationConfigMappe
     public List<MigrationConfigVO> getAllNeedMigrationConfigs(FieldDataType fieldDataType) {
         QueryWrapper<MigrationConfig> queryWrapper = new QueryWrapper<>();
         if (fieldDataType != null){
-            queryWrapper.eq("field_data_type", fieldDataType.getCode());
+            queryWrapper.and(wrapper -> wrapper
+                    .eq("field_data_type", fieldDataType.getCode())
+                    .or()
+                    .eq("field_data_type", fieldDataType.getCode().toLowerCase()));
         }
-        List<MigrationConfig> migrationConfigs = migrationConfigMapper.selectList(new QueryWrapper<>());
+        queryWrapper.and(wrapper -> wrapper.eq("enabled", 1).or().isNull("enabled"));
+        queryWrapper.orderByAsc("migration_order");
+        List<MigrationConfig> migrationConfigs = migrationConfigMapper.selectList(queryWrapper);
         List<MigrationTableLog> allMigrationTableLogs = migrationTableLogService.list();
         return initNeedMigrationConfig(migrationConfigs, allMigrationTableLogs);
     }
@@ -72,6 +77,12 @@ public class MigrationConfigServiceImpl extends ServiceImpl<MigrationConfigMappe
             migrationConfigVO.setDataSource(configs.get(0).getDataSource());
             migrationConfigVO.setMappingColumnNames(configs.stream().collect(Collectors.toMap(MigrationConfig::getColumnName, MigrationConfig::getMappingColumnName)));
             migrationConfigVO.setColumnIdMap(configs.stream().collect(Collectors.toMap(MigrationConfig::getColumnName, MigrationConfig::getId)));
+            migrationConfigVO.setTargetDataSource(configs.get(0).getTargetDataSource());
+            migrationConfigVO.setTargetTableName(configs.get(0).getTargetTableName());
+            migrationConfigVO.setSourcePrimaryKey(configs.get(0).getSourcePrimaryKey());
+            migrationConfigVO.setTargetPrimaryKey(configs.get(0).getTargetPrimaryKey());
+            migrationConfigVO.setWhereClause(configs.get(0).getWhereClause());
+            migrationConfigVO.setMigrationOrder(configs.get(0).getMigrationOrder());
             migrationConfigVOS.add(migrationConfigVO);
         }
         return migrationConfigVOS;

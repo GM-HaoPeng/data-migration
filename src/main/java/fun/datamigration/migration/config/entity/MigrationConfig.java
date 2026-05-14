@@ -19,4 +19,11 @@ public class MigrationConfig implements Serializable {
     private String mappingColumnName;
     private String dataSource;
     private String fieldDataType;
+    private String targetDataSource;
+    private String targetTableName;
+    private String sourcePrimaryKey;
+    private String targetPrimaryKey;
+    private String whereClause;
+    private Integer enabled;
+    private Integer migrationOrder;
 }

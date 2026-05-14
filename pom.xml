@@ -19,6 +19,7 @@
         <fastdfs.version>1.30-20230328</fastdfs.version>
         <amazonaws.s3.version>1.12.429</amazonaws.s3.version>
         <bucket4j.version>8.3.0</bucket4j.version>
+        <skipTests>true</skipTests>
     </properties>
     <dependencies>
         <dependency>
@@ -160,7 +161,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
                 <configuration>
-                    <skipTests>true</skipTests> <!-- 默认跳过测试执行 -->
+                    <skipTests>${skipTests}</skipTests> <!-- 默认跳过测试执行 -->
                     <!-- 如需完全跳过编译测试类，添加以下配置 -->
                     <!-- <skip>true</skip> -->
                 </configuration>

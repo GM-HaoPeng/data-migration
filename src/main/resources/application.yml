@@ -108,6 +108,7 @@ dromara:
         domain: https://bucket-xxxx.xian7.zos.ctyun.cn/ # 访问域名，注意“/”结尾，例如：https://abcd.s3.ap-east-1.amazonaws.com/
         base-path:  # 基础路径
 migration:
+  task-type: file # 可选值：file、data、all
   mode: test # 迁移模式，可选值：test、prod test模式只会迁移一批次数据
   batch-size: 1000
   retry-count: 3   # 添加重试次数配置
